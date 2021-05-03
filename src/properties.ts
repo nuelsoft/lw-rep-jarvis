@@ -5,12 +5,9 @@ function env(name: string){
 
 
 export default {
-    smtp: {
-        host: env("EMAIL_HOST"),
-        user: env("EMAIL_USER"),
-        pass: env("EMAIL_PASS"),
-        useTLS: env("EMAIL_USE_TLS") === "1",
-        port: parseInt(env("EMAIL_PORT")),
+    coinbase: {
+        uri: env("COINBASE_URL"),
+        apiKey: env("COINBASE_API_KEY")
     },
     port: env("PORT")
 }
