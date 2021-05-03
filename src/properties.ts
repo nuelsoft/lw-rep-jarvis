@@ -12,14 +12,5 @@ export default {
         useTLS: env("EMAIL_USE_TLS") === "1",
         port: parseInt(env("EMAIL_PORT")),
     },
-    mongo: {
-        uri: env("MONGO_URI")
-    },
-    redis: {
-        uri: env("REDIS_URL")
-    },
-    secrets: {
-        jwt: env("JWT_SECRET")
-    },
     port: env("PORT")
 }
