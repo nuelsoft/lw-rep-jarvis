@@ -1,9 +1,6 @@
 require("dotenv").config();
 require('module-alias/register');
 
-import mock from "mock-require";
-mock('redis', 'redis-mock');
-
 import server from "./server";
 import http from "http";
 
