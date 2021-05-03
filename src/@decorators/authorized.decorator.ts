@@ -9,7 +9,7 @@ export function Authorized(
 ) {
     const pre = desc.value;
 
-    desc.value = async function ({ body, params, headers, query, response, page, file, files }: any) {
+    desc.value = async function ({ body, params, headers, query, response, page }: any) {
         const authorizationToken = headers.authorization
             ? headers.authorization.split(" ")[1]
             : null;
@@ -32,6 +32,6 @@ export function Authorized(
                 message:
                     "You are not authorized to access this resource",
             });
-        return pre.apply(this, [{ body, params, headers, query, claims: payload, response, page, file, files }])
+        return pre.apply(this, [{ body, params, headers, query, claims: payload, response, page }])
     }
 }
