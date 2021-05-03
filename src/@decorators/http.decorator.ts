@@ -18,8 +18,6 @@ function methodHandler(route: string, method: HttpMethod): MethodDecorator {
                     query: req.query,
                     headers: req.headers,
                     params: req.params,
-                    file: req.file,
-                    files: req.files,
                     response: res,
                 } as ControllerData);
                 if (data instanceof Redirect) {
