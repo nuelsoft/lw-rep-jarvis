@@ -1,22 +1,18 @@
 import { POST } from "src/@decorators/http.decorator";
 import { Response } from "src/controllers";
 import { ControllerData } from "src/@types"
-import * as mailUtils from "src/utils/mail";
 import { Route } from "src/@decorators/utils.decorator";
+import Callback from "src/models/callback";
+import Axios from "axios";
 
 @Route("events")
 export default class EventsController {
     @POST()
-    async createUser({ body }: ControllerData): Promise<Response> {
-        console.log(body.event.type)
+    async processEvent({ body }: ControllerData): Promise<Response> {
         if (body.event.type === "invoice:paid"){
-            const {amount, currency} = body.event.data.local_price;
-            mailUtils.sendMail({
-                to: ["benjamincath@gmail.com"],
-                subject: "New Deposit",
-                text: `New Deposit of ${currency} ${amount}`,
-                html: `New Deposit of ${currency} ${amount}`,
-            });
+            const cb = await Callback.findByInvoiceId(body.event.data.id);
+            const eventResponse = await Axios.post(cb.callback, {...body});
+            return new Response(eventResponse.status, null)
         }
         return new Response(200, null)
     }
