@@ -5,6 +5,10 @@ import Loader from "src/loader";
 import EventsController from "src/controllers/events.controller";
 
 
+
+import { createMongooseConnection } from "src/config/database"
+export const connection = createMongooseConnection();
+
 const server = express();
 
 server.use(cors());
