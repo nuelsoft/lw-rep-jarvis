@@ -1,5 +1,5 @@
 import {Route} from "../@decorators/utils.decorator";
-import {POST} from "../@decorators/http.decorator";
+import {GET, POST} from "../@decorators/http.decorator";
 import {Is, ValidationOption} from "../@decorators/validator.decorators";
 import {ControllerData, Response, ResponseError} from "../@types";
 import UserService from "../models/user";
@@ -41,7 +41,16 @@ export class OrgController {
             message: "organization created",
             data: org
         });
+    }
 
+    @GET("query")
+    async query({query}: ControllerData): Promise<Response<Array<IOrg>>> {
+        const {office, limit, skip, keyword} = query
+
+        return Response.ok({
+            message: "Organizations retrieved",
+            data: await OrgService.find({office, keyword, limit, skip}),
+        })
 
     }
 

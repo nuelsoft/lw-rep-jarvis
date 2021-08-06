@@ -39,6 +39,18 @@ export default class OrgService {
         return this.model.findById(id);
     }
 
+    static async find({
+                          keyword = "",
+                          office = "church",
+                          limit = 50,
+                          skip = 0
+                      }: { office: string, limit: number, skip: number, keyword: string }): Promise<Array<IOrg>> {
+        return this.model.find({
+            name: {$regex: new RegExp(keyword, "i")},
+            office
+        }).limit(limit).skip(skip).populate(["org_directory"]);
+    }
+
     static async getOrgDirectory(id: string): Promise<Array<IOrg>> {
         let dir: IOrg[] = [];
         const leaf = await this.findById(id);
