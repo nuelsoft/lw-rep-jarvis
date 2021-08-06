@@ -7,6 +7,7 @@ import Hash from "../utils/hasher";
 import Tokenizer from "../utils/tokenizer";
 import {Middleware} from "../@decorators/middleware.decorator";
 import {Authorizer} from "../middlewares/authorizer";
+import OrgService from "../models/org";
 
 @Route("auth")
 export class AuthController {
@@ -14,6 +15,7 @@ export class AuthController {
     @POST("login")
     @Is({validator: ValidationOption.email})
     @Is({validator: ValidationOption.password})
+
     async login({body}: ControllerData): Promise<Response<AuthResponse>> {
         const {email, password} = body;
 
@@ -39,14 +41,19 @@ export class AuthController {
     @Is({accessor: "full_name", validator: ValidationOption.isString})
     @Is({validator: ValidationOption.email})
     @Is({validator: ValidationOption.password})
+    @Is({validator: ValidationOption.isObjectId, accessor: "organization"})
     async register({body}: ControllerData): Promise<Response<AuthResponse>> {
-        const {full_name, email, password} = body;
+        const {full_name, organization, email, password} = body;
         const user = await UserService.findByEmail(email);
 
         if (user) throw ResponseError.badRequest("user with specified email already exists");
 
+        const org = await OrgService.findById(organization);
+        if (!org || org.office != "church")
+            throw ResponseError.badRequest("Organization with specified wasn't found or isn't a church")
+
         const creation = await UserService.save({
-            email, password: Hash.create(password), full_name
+            email, password: Hash.create(password), full_name, organization
         });
 
         return Response.created({

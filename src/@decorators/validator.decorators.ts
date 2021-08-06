@@ -1,6 +1,14 @@
 import {ControllerData, ResponseError} from "../@types";
+import {isValidObjectId} from "mongoose";
 
-export enum ValidationOption {email = "email", password = "password", isString = "string", isArrayOfString = "array.string", isArrayOfNumber = "array.number"}
+export enum ValidationOption {
+    email = "email",
+    password = "password",
+    isString = "string",
+    isArrayOfString = "array.string",
+    isArrayOfNumber = "array.number",
+    isObjectId = "object.id"
+}
 
 export function Is({validator, accessor}: {
     validator: ValidationOption,
@@ -34,6 +42,8 @@ class Validator {
                 return this.isStringValidator(key, operand);
             case ValidationOption.isArrayOfString:
                 return this.isArrayOf(key, operand, 'string')
+            case ValidationOption.isObjectId:
+                return this.isObjectId(key, operand)
 
         }
     }
@@ -60,6 +70,11 @@ class Validator {
     private static isArrayOf(key: string, value: any, type: string) {
         if (!value || !Array.isArray(value) || (type && !value.every((e) => typeof type)))
             throw ResponseError.badRequest(`${key} must be provided and of type ${type}`);
+    }
+
+    private static isObjectId(key: string, value: any) {
+        if (!value || !isValidObjectId(value))
+            throw ResponseError.badRequest(`${key} must be provided and a valid object id`);
     }
 
 }
