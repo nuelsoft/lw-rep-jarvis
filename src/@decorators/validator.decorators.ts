@@ -5,6 +5,7 @@ export enum ValidationOption {
     email = "email",
     password = "password",
     isString = "string",
+    isNumber = "number",
     isArrayOfString = "array.string",
     isArrayOfNumber = "array.number",
     isObjectId = "object.id"
@@ -39,7 +40,9 @@ class Validator {
             case ValidationOption.password:
                 return this.passwordValidator(operand);
             case ValidationOption.isString:
-                return this.isStringValidator(key, operand);
+                return this.is(key, operand, 'string');
+            case ValidationOption.isNumber:
+                return this.is(key, operand, 'number');
             case ValidationOption.isArrayOfString:
                 return this.isArrayOf(key, operand, 'string')
             case ValidationOption.isObjectId:
@@ -62,9 +65,9 @@ class Validator {
             throw ResponseError.badRequest("password exist and be must be 6 - 100 characters")
     }
 
-    private static isStringValidator(key: string, value: any) {
-        if (!value || typeof value != 'string')
-            throw ResponseError.badRequest(`${key} must be a string`);
+    private static is(key: string, value: any, type: string) {
+        if (!value || typeof value != type)
+            throw ResponseError.badRequest(`${key} must be a ${type}`);
     }
 
     private static isArrayOf(key: string, value: any, type: string) {

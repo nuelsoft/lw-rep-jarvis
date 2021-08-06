@@ -53,7 +53,10 @@ export class AuthController {
             throw ResponseError.badRequest("Organization with specified wasn't found or isn't a church")
 
         const creation = await UserService.save({
-            email, password: Hash.create(password), full_name, organization
+            email: (email as string).trim(),
+            password: Hash.create(password),
+            full_name: (full_name as string).trim(),
+            organization
         });
 
         return Response.created({

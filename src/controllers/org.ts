@@ -31,7 +31,7 @@ export class OrgController {
             admin: admin.id,
             org_directory: [claims.org.id, ...claims.org.org_directory],
             office,
-            name
+            name: (name as string).trim()
         })
 
         admin.organization = org.id;
@@ -49,7 +49,7 @@ export class OrgController {
 
         return Response.ok({
             message: "Organizations retrieved",
-            data: await OrgService.find({office, keyword, limit, skip}),
+            data: await OrgService.find({office, keyword, limit: parseInt(limit), skip: parseInt(skip)}),
         })
 
     }

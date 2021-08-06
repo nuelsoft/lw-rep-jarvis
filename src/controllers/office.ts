@@ -15,7 +15,11 @@ export class OfficeController {
         const {slug, title, invokable_by} = body;
 
         return Response.created({
-            data: await OfficeService.save({slug, title, invokable_by})
+            data: await OfficeService.save({
+                slug: (slug as string).trim(),
+                title: (title as string).trim(),
+                invokable_by
+            })
         })
     }
 

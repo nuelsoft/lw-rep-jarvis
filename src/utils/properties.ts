@@ -9,5 +9,8 @@ export default {
     jwt: {
         secret: env("JWT_SECRET_KEY")
     },
-    port: env("PORT")
+    port: env("PORT"),
+    banner: {
+        default: env("EVENT_IMAGE_PLACEHOLDER")
+    }
 }

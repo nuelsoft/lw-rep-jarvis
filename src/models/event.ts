@@ -1,13 +1,15 @@
 import * as mongoose from "mongoose";
 import {Service} from "../@decorators/utils.decorator";
 import {IOrg} from "./org";
+import {IProject} from "./project";
 
 export interface IEvent extends mongoose.Document {
     date: number;
     title: string;
     organization: string | IOrg;
     details: string;
-    project: string;
+    project: string | IProject;
+    form: string;
     banner: string;
 }
 
@@ -32,6 +34,10 @@ export default class EventService {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Project"
         },
+        form: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Event.Form"
+        },
         banner: String,
     }, {
         timestamps: {
@@ -42,7 +48,7 @@ export default class EventService {
     })
 
     static async findById(id: string): Promise<IEvent | null> {
-        return this.model.findById(id);
+        return this.model.findById(id).populate(["form", "project", "organization"]);
     }
 
     static async save(data: Partial<IEvent>): Promise<IEvent> {
@@ -56,7 +62,7 @@ export default class EventService {
         return this.model.find({
             date: {$gt: someTimeAgo.getDate()},
             organization: {$in: orgs},
-        }).sort("date").populate("organization")
+        }).sort("date").populate(["form", "project", "organization"])
     }
 
 }
