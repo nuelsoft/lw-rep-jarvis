@@ -46,11 +46,11 @@ export class AuthController {
         const {full_name, organization, email, password} = body;
         const user = await UserService.findByEmail(email);
 
-        if (user) throw ResponseError.badRequest("user with specified email already exists");
+        if (user) throw ResponseError.badRequest("User already exists. Choose another email");
 
         const org = await OrgService.findById(organization);
         if (!org || org.office != "church")
-            throw ResponseError.badRequest("Organization with specified wasn't found or isn't a church")
+            throw ResponseError.badRequest("Church wasn't found")
 
         const creation = await UserService.save({
             email: (email as string).trim(),
@@ -73,7 +73,7 @@ export class AuthController {
     @GET("account")
     async account({claims}: ControllerData): Promise<Response<AuthResponse>> {
         return Response.ok({
-            message: "account retrieved",
+            message: "Account retrieved",
             data: {
                 user: <IUser>{...claims.user.toJSON(), password: undefined},
                 access_token: undefined

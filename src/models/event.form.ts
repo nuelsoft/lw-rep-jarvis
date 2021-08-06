@@ -6,7 +6,7 @@ export interface IEventForm extends mongoose.Document {
 }
 
 @Service
-export default class EventService {
+export default class EventFormService {
     static _model: mongoose.Model<IEventForm>;
 
     private static get model() {

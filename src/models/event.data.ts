@@ -9,7 +9,7 @@ export interface IEventData extends mongoose.Document {
 }
 
 @Service
-export default class EventService {
+export default class EventDataService {
     static _model: mongoose.Model<IEventData>;
 
     private static get model() {
@@ -18,7 +18,7 @@ export default class EventService {
     }
 
     private static schema = new mongoose.Schema<IEventData>({
-        entry: {String: String},
+        entry: {type: {String: String}},
         form: String,
         logged_by: {
             type: mongoose.Schema.Types.ObjectId,
