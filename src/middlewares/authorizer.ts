@@ -33,7 +33,7 @@ export async function Authorizer(request: e.Request, response: e.Response, next:
         id: user.id,
         org: user.organization as IOrg,
         user,
-        is_admin: (user.organization as IOrg).admin === user.id
+        is_admin: (user.organization as IOrg)?.admin === user.id
     }
 
     return next();

@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import {Service} from "../@decorators/utils.decorator";
+import {IOrg} from "./org";
 
 export interface IOffice extends mongoose.Document {
     slug: string;
@@ -9,8 +10,11 @@ export interface IOffice extends mongoose.Document {
 
 @Service
 export default class OfficeService {
+    static _model: mongoose.Model<IOffice>;
+
     private static get model() {
-        return mongoose.model<IOffice>("Office", this.schema)
+        this._model = this._model ?? mongoose.model<IOffice>("Office", this.schema)
+        return this._model;
     }
 
     private static schema = new mongoose.Schema<IOffice>({

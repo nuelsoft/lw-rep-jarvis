@@ -17,7 +17,7 @@ export class OrgController {
     @Is({validator: ValidationOption.isString, accessor: 'name'})
     @Is({validator: ValidationOption.email, accessor: 'admin_email'})
     @Is({validator: ValidationOption.isString, accessor: 'office'})
-    async start({body}: ControllerData): Promise<Response<IOrg>> {
+    async start({body, claims}: ControllerData): Promise<Response<IOrg>> {
 
         const {name, admin_email, office} = body;
 
@@ -29,14 +29,13 @@ export class OrgController {
 
         const org = await OrgService.save({
             admin: admin.id,
-            org_directory: [],
+            org_directory: [claims.org.id, ...claims.org.org_directory],
             office,
             name
         })
 
         admin.organization = org.id;
-
-        await UserService.save(admin);
+        await admin.save()
 
         return Response.created({
             message: "organization created",

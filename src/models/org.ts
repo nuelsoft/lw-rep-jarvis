@@ -13,8 +13,12 @@ export interface IOrg extends Document {
 
 @Service
 export default class OrgService {
+
+    static _model: mongoose.Model<IOrg>;
+
     private static get model() {
-        return mongoose.model<IOrg>("Org", this.schema)
+        this._model = this._model ?? mongoose.model<IOrg>("Org", this.schema)
+        return this._model;
     }
 
     static get schema() {

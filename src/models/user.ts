@@ -14,8 +14,11 @@ export interface IUser extends mongoose.Document {
 
 @Service
 export default class UserService {
+    static _model: mongoose.Model<IUser>;
+
     private static get model() {
-        return mongoose.model<IUser>("User", this.schema)
+        this._model = this._model ?? mongoose.model<IUser>("User", this.schema)
+        return this._model;
     }
 
     private static schema = new mongoose.Schema<IUser>({
@@ -42,6 +45,10 @@ export default class UserService {
     static async save(data: Partial<IUser>): Promise<IUser> {
         const user: IUser = await new this.model(data).save();
         return this.views(user, UserViews.passwordLess)
+    }
+
+    static async updateOrg(id: string, organization: string): Promise<void> {
+        await this.model.updateOne({id}, {organization})
     }
 
     static async findByEmail(email: string): Promise<IUser | null> {
