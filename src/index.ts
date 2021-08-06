@@ -1,12 +1,9 @@
 require("dotenv").config();
-require('module-alias/register');
-
 import server from "./server";
 import http from "http";
 
-const { PORT = 3000 } = process.env;
-
+const {PORT = 3000} = process.env;
 
 http.createServer(server).listen(PORT, () => {
-  console.log(`Social media API started on port ${PORT} 🍻`);
+    console.log(`LW REP ready to brew at :${PORT} 🍻`);
 });

@@ -10,13 +10,16 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "outDir": "dist",
+    "outDir": "dist/src",
     "typeRoots": ["node_modules/@types"],
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"],
-      "src/*": ["./src/*"]
+//      "./src/*": ["./src/*"]
     }
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   },
   "include": ["src/**/*"]
 }

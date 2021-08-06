@@ -1,6 +1,5 @@
 import e from "express";
-import { MediaResponse, Redirect, ResponseError } from "src/controllers";
-import { ControllerData, HttpMethod } from "src/@types";
+import {ControllerData, HttpMethod, MediaResponse, Redirect, ResponseError} from "../@types";
 
 import "reflect-metadata";
 
@@ -27,12 +26,12 @@ function methodHandler(route: string, method: HttpMethod): MethodDecorator {
                     res.set("Content-Type", data.mime);
                     return res.send(data.data);
                 }
-                res.status(data.status).send(data.message);
+                res.status(data.status).send({message: data.message, data: data.data});
             } catch (e) {
                 if (e instanceof ResponseError) {
-                    return res.status(e.status).send({ message: e.message });
+                    return res.status(e.status).send({message: e.message});
                 }
-                return res.status(500).send({ message: e.message });
+                return res.status(500).send({message: e.message});
             }
         }
         Reflect.defineMetadata("path", route, target, propertyKey);

@@ -1,4 +1,4 @@
-import { ControllerData, PageParams } from "src/@types";
+import { ControllerData, PageParams } from "../@types";
 
 export const Paginated = ({page, direction, limit, sort}: PageParams) => function (
     _: any,

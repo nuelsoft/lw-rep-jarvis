@@ -1,22 +1,19 @@
 import express from "express";
 import cors from "cors";
 
-import Loader from "src/loader";
-import EventsController from "src/controllers/events.controller";
+import Loader from "./utils/loader";
 
+import Database from "./config/database"
+import AuthController from "./controllers/auth";
 
-
-import { createMongooseConnection } from "src/config/database"
-export const connection = createMongooseConnection();
+Database.connect();
 
 const server = express();
 
 server.use(cors());
 server.use(express.json());
-server.use(express.static("uploads"))
 
 const loader = new Loader(server);
-
-loader.register(new EventsController());
+loader.register(new AuthController())
 
 export default server;

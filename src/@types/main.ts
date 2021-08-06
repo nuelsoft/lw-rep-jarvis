@@ -35,10 +35,3 @@ export interface PageParams {
     sort?: string,
     direction?: SortDirection,
 }
-
-export interface MailProps {
-    to: Array<string>;
-    subject: string;
-    text: string;
-    html: string;
-  }

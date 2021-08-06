@@ -1,8 +1,8 @@
 import e from 'express';
 import 'reflect-metadata';
-import { HttpMethod } from './@types';
+import { HttpMethod } from '../@types';
 
-export default class {
+export default class Loader {
     server: e.Express;
 
     constructor(server: e.Express) {
