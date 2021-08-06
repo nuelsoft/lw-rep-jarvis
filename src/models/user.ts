@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
+import {IOrg} from "./org";
+import {Service} from "../@decorators/utils.decorator";
 
 enum UserViews {passwordLess}
 
@@ -6,9 +8,11 @@ export interface IUser extends mongoose.Document {
     full_name: string;
     email: string;
     password: string;
-
+    organization?: string | IOrg;
 }
 
+
+@Service
 export default class UserService {
     private static get model() {
         return mongoose.model<IUser>("User", this.schema)
@@ -27,11 +31,15 @@ export default class UserService {
             type: String,
             required: true
         },
+        organization: {type: Schema.Types.ObjectId, ref: "Org"}
     }, {
-        timestamps: true
+        timestamps: {
+            updatedAt: "updated_at",
+            createdAt: "created_at",
+        }
     })
 
-    static async saveUser(data: Partial<IUser>): Promise<IUser> {
+    static async save(data: Partial<IUser>): Promise<IUser> {
         const user: IUser = await new this.model(data).save();
         return this.views(user, UserViews.passwordLess)
     }
@@ -41,7 +49,7 @@ export default class UserService {
     }
 
     static async findByID(id: string): Promise<IUser | null> {
-        return this.model.findById(id);
+        return this.model.findById(id).populate(["organization"]);
     }
 
     private static views(user: IUser, view: UserViews): IUser {
@@ -54,4 +62,3 @@ export default class UserService {
     }
 
 }
-

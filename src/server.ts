@@ -4,7 +4,7 @@ import cors from "cors";
 import Loader from "./utils/loader";
 
 import Database from "./config/database"
-import AuthController from "./controllers/auth";
+import {AuthController, OfficeController, OrgController} from "./controllers";
 
 Database.connect();
 
@@ -15,5 +15,7 @@ server.use(express.json());
 
 const loader = new Loader(server);
 loader.register(new AuthController())
+loader.register(new OfficeController())
+loader.register(new OrgController())
 
 export default server;

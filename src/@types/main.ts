@@ -1,4 +1,6 @@
 import e from "express";
+import {IUser} from "../models/user";
+import {IOrg} from "../models/org";
 
 export enum HttpMethod {
     GET = "get",
@@ -9,14 +11,16 @@ export enum HttpMethod {
 
 export interface AuthClaim {
     id: string;
-    purpose: string;
+    org: IOrg;
+    is_admin: boolean;
+    user: IUser;
 }
 
 export interface ControllerData {
-    body: {[key: string]: any};
-    params: {[key: string]: any};
-    query: {[key: string]: any};
-    headers: {[key: string]: any};
+    body: { [key: string]: any };
+    params: { [key: string]: any };
+    query: { [key: string]: any };
+    headers: { [key: string]: any };
     claims?: AuthClaim;
     response?: e.Response;
     page?: PageParams;

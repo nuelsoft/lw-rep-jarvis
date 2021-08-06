@@ -1,13 +1,15 @@
 import {Route} from "../@decorators/utils.decorator";
-import {POST} from "../@decorators/http.decorator";
+import {GET, POST} from "../@decorators/http.decorator";
 import {ControllerData, Response, ResponseError} from "../@types";
 import {Is, ValidationOption} from "../@decorators/validator.decorators";
 import UserService, {IUser} from "../models/user";
 import Hash from "../utils/hasher";
 import Tokenizer from "../utils/tokenizer";
+import {Middleware} from "../@decorators/middleware.decorator";
+import {Authorizer} from "../middlewares/authorizer";
 
 @Route("auth")
-export default class AuthController {
+export class AuthController {
 
     @POST("login")
     @Is({validator: ValidationOption.email})
@@ -27,7 +29,7 @@ export default class AuthController {
             message: "Login successful",
             data: {
                 user: user,
-                access_token: Tokenizer.create(user.toJSON())
+                access_token: Tokenizer.create({id: user.id})
             }
         })
 
@@ -43,7 +45,7 @@ export default class AuthController {
 
         if (user) throw ResponseError.badRequest("user with specified email already exists");
 
-        const creation = await UserService.saveUser({
+        const creation = await UserService.save({
             email, password: Hash.create(password), full_name
         });
 
@@ -51,15 +53,27 @@ export default class AuthController {
             message: "User successfully registered",
             data: {
                 user: creation,
-                access_token: Tokenizer.create(creation.toJSON())
+                access_token: Tokenizer.create({id: user.id})
             }
         });
 
+    }
+
+    @Middleware(Authorizer)
+    @GET("account")
+    async account({claims}: ControllerData): Promise<Response<AuthResponse>> {
+        return Response.ok({
+            message: "account retrieved",
+            data: {
+                user: <IUser>{...claims.user.toJSON(), password: undefined},
+                access_token: undefined
+            }
+        })
     }
 
 }
 
 interface AuthResponse {
     user: IUser;
-    access_token: string;
+    access_token: string | undefined | null;
 }

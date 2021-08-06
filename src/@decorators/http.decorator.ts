@@ -2,6 +2,7 @@ import e from "express";
 import {ControllerData, HttpMethod, MediaResponse, Redirect, ResponseError} from "../@types";
 
 import "reflect-metadata";
+import UserService from "../models/user";
 
 
 function methodHandler(route: string, method: HttpMethod): MethodDecorator {
@@ -11,11 +12,13 @@ function methodHandler(route: string, method: HttpMethod): MethodDecorator {
         descriptor: PropertyDescriptor,
     ) {
         const handler = async function (req: e.Request, res: e.Response) {
+
             try {
                 const data = await descriptor.value({
                     body: req.body,
                     query: req.query,
                     headers: req.headers,
+                    claims: req.claims,
                     params: req.params,
                     response: res,
                 } as ControllerData);

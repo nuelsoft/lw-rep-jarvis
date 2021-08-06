@@ -1,6 +1,6 @@
 import {ControllerData, ResponseError} from "../@types";
 
-export enum ValidationOption {email = "email", password = "password", isString = "string"}
+export enum ValidationOption {email = "email", password = "password", isString = "string", isArrayOfString = "array.string", isArrayOfNumber = "array.number"}
 
 export function Is({validator, accessor}: {
     validator: ValidationOption,
@@ -31,7 +31,9 @@ class Validator {
             case ValidationOption.password:
                 return this.passwordValidator(operand);
             case ValidationOption.isString:
-                return this.isStringValidator(key, operand)
+                return this.isStringValidator(key, operand);
+            case ValidationOption.isArrayOfString:
+                return this.isArrayOf(key, operand, 'string')
 
         }
     }
@@ -53,6 +55,11 @@ class Validator {
     private static isStringValidator(key: string, value: any) {
         if (!value || typeof value != 'string')
             throw ResponseError.badRequest(`${key} must be a string`);
+    }
+
+    private static isArrayOf(key: string, value: any, type: string) {
+        if (!value || !Array.isArray(value) || (type && !value.every((e) => typeof type)))
+            throw ResponseError.badRequest(`${key} must be provided and of type ${type}`);
     }
 
 }

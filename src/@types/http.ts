@@ -60,7 +60,7 @@ export class ResponseError extends Error {
         return new ResponseError(500, message);
     }
 
-    static unImplemented(message: string) {
+    static unImplemented(message: string = "not implemented") {
         return new ResponseError(501, message);
     }
 
