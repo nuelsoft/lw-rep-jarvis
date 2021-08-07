@@ -63,7 +63,7 @@ export class AuthController {
             message: "User successfully registered",
             data: {
                 user: creation,
-                access_token: Tokenizer.create({id: user.id})
+                access_token: Tokenizer.create({id: creation.id})
             }
         });
 
