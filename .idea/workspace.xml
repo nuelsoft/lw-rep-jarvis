@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63c9a82e-362c-4adf-b874-84c80f50fd45" name="Changes" comment="nc">
+    <list default="true" id="63c9a82e-362c-4adf-b874-84c80f50fd45" name="Changes" comment=":">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/event.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/event.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/event.data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/event.data.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/event.form.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/event.form.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +126,7 @@
       <workItem from="1628244600932" duration="147000" />
       <workItem from="1628244756707" duration="22000" />
       <workItem from="1628244791790" duration="226000" />
-      <workItem from="1628245192277" duration="43186000" />
+      <workItem from="1628245192277" duration="46186000" />
     </task>
     <servers />
   </component>
